@@ -102,34 +102,50 @@ public static void historicoReservas() {
     }
 }
 public static void cadastrarReserva() {
-    System.out.println("Nome do hóspede: ");
+    System.out.println("Nome do Cliente: ");
     String nome = scan.next();
-    System.out.println("Data de check-in : ");
+    System.out.println("Data de check-in (dd/mm/aaaa): ");
     String checkIn = scan.next();
-    System.out.println("Data de check-out : ");
+    System.out.println("Data de check-out (dd/mm/aaaa): ");
     String checkOut = scan.next();
 
-    listarQuartosDisponiveis();
-    System.out.println("Escolha o número do quarto: ");
-    int numeroQuarto = scan.nextInt();
-    Quartos quartoReservado = null;
+    Reserva reserva = new Reserva(nome,checkIn,checkOut,null);
 
-    for (Quartos quarto : listaQuartos) {
-        if (quarto.getNumQuarto() == numeroQuarto && quarto.getDisponibilidade().equals(true)) {
-            quartoReservado = quarto;
-            quarto.setDisponibilidade(false); 
-            break;
+    while (true) {
+        listarQuartosDisponiveis();
+        System.out.println("Escolha o número do quarto (ou digite 0 para finalizar): ");
+        int numeroQuarto = scan.nextInt();
+        if (numeroQuarto == 0) {
+            break; 
+        }
+
+        Quartos quartoReservado = null;
+
+        for (Quartos quarto : listaQuartos) {
+            if (quarto.getNumQuarto() == numeroQuarto && quarto.getDisponibilidade().equals(true)) {
+                quartoReservado = quarto;
+                quarto.setDisponibilidade(false) ;
+                reserva.adicionarQuarto(quartoReservado) ; 
+                System.out.println("Quarto " + numeroQuarto + " reservado com sucesso!");
+                break;
+            }
+        }
+
+        if (quartoReservado == null) {
+            System.out.println("Quarto indisponível ou inexistente.");
         }
     }
 
-    if (quartoReservado != null) {
-        Reserva reserva = new Reserva(nome, checkIn, checkOut,quartoReservado);
-        reservas.add(reserva);
-        System.out.println("Reserva cadastrada com sucesso!");
+    if (reserva.getQuartosReservados().isEmpty()) {
+        System.out.println("Nenhum quarto reservado. A reserva não foi cadastrada.");
+ 
     } else {
-        System.out.println("Quarto indisponível ou inexistente.");
+ 
+        reservas.add(reserva);  
+        System.out.println("Reserva cadastrada com sucesso!");
     }
 }
+
 public static void mainReserva() {
 	int a =21;
 	while (a!=0){
@@ -160,7 +176,7 @@ public static void removerReserva() {
 	int achou=0;
 	for (int i = reservas.size()-1; i >= 0; i--) {
 	
-		if (reservas.get(i).getNomeCliente()==num) {
+		if (reservas.get(i).getNomeCliente().equalsIgnoreCase(num)) {
 			System.out.println("reserva removido");
 			reservas.remove(i);
 			achou=1;
@@ -174,8 +190,8 @@ public static void removerReserva() {
 }
 public static void listarReservas()
 {
-	for (Reserva quartos : reservas) {
-		System.out.println(quartos);
+	for (Reserva reservas : reservas) {
+		System.out.println(reservas);
 	}
 }
 

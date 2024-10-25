@@ -1,5 +1,6 @@
 package main.objetos;
 
+import java.util.ArrayList;
 
 public class Reserva {
 
@@ -10,11 +11,14 @@ public Reserva(String nomeCliente, String dataCheckIn, String dataCheckOut, Quar
 		this.dataCheckIn = dataCheckIn;
 		this.dataCheckOut = dataCheckOut;
 		this.quarto = quarto;
+		  this.quartosReservados = new ArrayList<>();
 	}
+
 private String nomeCliente;
 private int quantQuartos;
 private String dataCheckIn;
 private String dataCheckOut;
+private ArrayList<Quartos> quartosReservados;
 private Quartos quarto;
 public Quartos getQuarto() {
 	return quarto;
@@ -47,7 +51,20 @@ public String getDataCheckOut() {
 public void setDataCheckOut(String dataCheckOut) {
 	this.dataCheckOut = dataCheckOut;
 }
-
+public ArrayList<Quartos> getQuartosReservados() {
+    return quartosReservados;
+}
+public void setQuartosReservados(ArrayList<Quartos> quartosReservados) {
+	this.quartosReservados = quartosReservados;
+}
+public void adicionarQuarto(Quartos quarto) {
+    quartosReservados.add(quarto);
+}
+@Override
+public String toString() {
+	return "Reserva [nomeCliente=" + nomeCliente + ", quantQuartos=" + quantQuartos + ", dataCheckIn=" + dataCheckIn
+			+ ", dataCheckOut=" + dataCheckOut + ", quartosReservados=" + quartosReservados + "]";
+}
 
 
 
